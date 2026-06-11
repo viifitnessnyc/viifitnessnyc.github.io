@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hiram Rodriguez · viifitnessnyc</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #E8521A;
+      --orange-glow: rgba(232, 82, 26, 0.25);
+      --black: #0A0A0A;
+      --dark: #111111;
+      --card: #161616;
+      --border: rgba(255,255,255,0.07);
+      --text: #F0EDE8;
+      --muted: rgba(240,237,232,0.5);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/hero.jpg');
+      background-size: cover;
+      background-position: center 20%;
+      filter: brightness(0.45);
+      transform: scale(1.05);
+      animation: heroZoom 8s ease forwards;
+    }
+
+    @keyframes heroZoom {
+      to { transform: scale(1); }
+    }
+
+    .hero-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, var(--black) 0%, transparent 50%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 80px 6vw 80px;
+      width: 100%;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--orange);
+      border: 1px solid var(--orange);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      margin-top: 40px;
+    }
+
+    .hero-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(52px, 10vw, 120px);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+    }
+
+    .hero-name span { color: var(--orange); }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .hero-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-stat-n {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .hero-stat-l {
+      font-size: 11px;
+      color: rgba(240,237,232,0.5);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 32px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #ff6a30; transform: translateY(-2px); box-shadow: 0 8px 30px var(--orange-glow); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-2px); }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.4;
+      animation: fadeUp 1s ease 1.2s both;
+    }
+
+    .scroll-hint span {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 100px 6vw;
+    }
+
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      margin-bottom: 48px;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-img {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+    }
+
+    .about-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .about-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .about-accent {
+      position: absolute;
+      bottom: -2px;
+      left: -2px;
+      right: -2px;
+      height: 4px;
+      background: var(--orange);
+      box-shadow: 0 0 20px var(--orange);
+    }
+
+    .about-text p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: rgba(240,237,232,0.8);
+      margin-bottom: 24px;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    /* ── RACES ── */
+    #races { background: var(--dark); }
+
+    .races-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+    }
+
+    .races-header .section-title { margin-bottom: 0; }
+
+    .race-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 280px;
+      gap: 12px;
+    }
+
+    .race-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .race-card:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+    .race-card:nth-child(2) { grid-column: span 5; }
+    .race-card:nth-child(3) { grid-column: span 5; }
+    .race-card:nth-child(4) { grid-column: span 4; }
+    .race-card:nth-child(5) { grid-column: span 4; }
+    .race-card:nth-child(6) { grid-column: span 4; }
+
+    .race-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .race-card:hover img { transform: scale(1.06); }
+
+    .race-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+    }
+
+    .race-card:hover .race-overlay { opacity: 1; }
+
+    .race-info h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .race-info p {
+      font-size: 13px;
+      color: var(--orange);
+      margin-top: 4px;
+    }
+
+    /* placeholder cards */
+    .race-placeholder {
+      background: var(--card);
+      border: 1px dashed var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .race-placeholder span {
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    /* ── BRANDS ── */
+    .brands-intro {
+      max-width: 560px;
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 64px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .brands-pitch {
+      max-width: 720px;
+      margin-bottom: 56px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .brands-intro {
+      font-size: 17px;
+      line-height: 1.8;
+      color: rgba(240,237,232,0.7);
+      margin-bottom: 48px;
+    }
+
+    .pitch-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .pitch-stat {
+      padding: 28px 24px;
+      border-right: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .pitch-stat:last-child { border-right: none; }
+
+    .pitch-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--orange);
+      margin-bottom: 4px;
+    }
+
+    .pitch-label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    .brands-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .brand-card {
+      width: 200px;
+      flex-shrink: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.25s;
+      text-align: center;
+    }
+
+    .brand-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px var(--orange-glow);
+      background: #1a1a1a;
+    }
+
+    .brand-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .brand-pitch {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .brands-cta {
+      text-align: center;
+    }
+
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-type {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    /* ── CONNECT ── */
+    #connect {
+      background: var(--dark);
+      text-align: center;
+    }
+
+    #connect .section-title {
+      margin-bottom: 16px;
+    }
+
+    .connect-sub {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 400px;
+      margin: 0 auto 56px;
+      line-height: 1.7;
+    }
+
+    .connect-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 28px;
+      border-radius: 100px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .social-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--orange-glow);
+    }
+
+    .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 6vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .footer-brand span { color: var(--orange); }
+
+    footer p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 6vw;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+
+    .nav-links {
+      justify-self: center;
+    }
+
+    nav > a:last-child {
+      justify-self: end;
+    }
+
+    nav.scrolled {
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(20px);
+      padding: 14px 6vw;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-brand span { color: var(--orange); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .about { grid-template-columns: 1fr; gap: 40px; }
+      .race-card:nth-child(n) { grid-column: span 12; }
+      .race-grid { grid-auto-rows: 240px; }
+      .races-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .nav-links { display: none; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-brand"></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#races">Races</a></li>
+      <li><a href="#brands">Brands</a></li>
+      <li><a href="#connect">Connect</a></li>
+    </ul>
+    <a href="https://www.instagram.com/viifitnessnyc" target="_blank" class="btn btn-primary" style="padding:10px 20px;font-size:13px;">Follow</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <div class="hero-tag">NYC Runner · @viifitnessnyc</div>
+      <h1 class="hero-name">Hiram<br><span>Rodriguez</span></h1>
+      <p class="hero-sub">Putting in miles nobody asked for.<br>Documenting every step. Building something real.</p>
+      <div class="hero-stats-row">
+        <div class="hero-stat-item"><span class="hero-stat-n">8</span><span class="hero-stat-l">Races Finished</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item"><span class="hero-stat-n">26.2</span><span class="hero-stat-l">Marathon Finisher</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat-item"><span class="hero-stat-n">NYC</span><span class="hero-stat-l">All Day</span></div>
+      </div>
+      <div class="hero-links">
+        <a href="#about" class="btn btn-primary">My Story</a>
+        <a href="#races" class="btn btn-ghost">Race Gallery</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about reveal">
+      <div class="about-img">
+        <img src="assets/hero.jpg" alt="Hiram Rodriguez running" />
+        <div class="about-accent"></div>
+      </div>
+      <div class="about-text">
+        <div class="section-label">Who I Am</div>
+        <h2 class="section-title">Started From<br>These Streets</h2>
+        <p>I got into running through my brother and the <strong>Viifitness5 crew</strong> — they showed me the way. From there it was just me showing up every day on the streets of New York City.</p>
+        <p>No shortcuts. Just miles. Now I'm building <strong>Viifitnessnyc</strong> — a brand that documents the real journey of becoming a runner in this city. Every race, every mile, every moment.</p>
+        <div class="stats">
+          <div>
+            <div class="stat-num">NYC</div>
+            <div class="stat-label">Based</div>
+          </div>
+          <div>
+            <div class="stat-num">8</div>
+            <div class="stat-label">Races Finished</div>
+          </div>
+          <div>
+            <div class="stat-num">26.2</div>
+            <div class="stat-label">Marathon Finisher</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RACES -->
+  <section id="races">
+    <div class="races-header reveal">
+      <div>
+        <div class="section-label">Race Gallery</div>
+        <h2 class="section-title">On These Streets</h2>
+      </div>
+    </div>
+    <div class="race-grid reveal">
+      <div class="race-card">
+        <img src="assets/race1.jpg" alt="Race finish line" />
+        <div class="race-overlay">
+          <div class="race-info">
+            <h3>La Vega Race</h3>
+            <p>Dominican Republic · 2024</p>
+          </div>
+        </div>
+      </div>
+      <div class="race-card">
+        <img src="assets/race2.jpg" alt="Race" />
+        <div class="race-overlay">
+          <div class="race-info">
+            <h3>Run Monopoly Series</h3>
+            <p>Atlantic City · 2024</p>
+          </div>
+        </div>
+      </div>
+      <div class="race-card">
+        <img src="assets/race3.jpg" alt="Race crew" />
+        <div class="race-overlay">
+          <div class="race-info">
+            <h3>Post Race</h3>
+            <p>With the crew · 2024</p>
+          </div>
+        </div>
+      </div>
+      <div class="race-card race-placeholder">
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        <span>More Coming</span>
+      </div>
+      <div class="race-card race-placeholder">
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        <span>More Coming</span>
+      </div>
+      <div class="race-card race-placeholder">
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        <span>More Coming</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <section id="brands">
+    <div class="brands-pitch reveal">
+      <div class="section-label">Partnership Opportunity</div>
+      <h2 class="section-title">Why Work With Me</h2>
+      <p class="brands-intro">I'm not just a runner. I'm a content creator documenting every mile on the streets of New York City. My audience isn't passive. They train, they race, they buy gear. If your brand shows up on my page, it shows up authentically. In the middle of a race, on a long run through the Bronx, at the finish line. Real content. Real people. Real impact.</p>
+      <div class="pitch-stats reveal">
+        <div class="pitch-stat">
+          <div class="pitch-num">NYC</div>
+          <div class="pitch-label">Based &amp; Active</div>
+        </div>
+        <div class="pitch-stat">
+          <div class="pitch-num">100%</div>
+          <div class="pitch-label">Authentic Content</div>
+        </div>
+        <div class="pitch-stat">
+          <div class="pitch-num">Race</div>
+          <div class="pitch-label">Tested Gear Only</div>
+        </div>
+        <div class="pitch-stat">
+          <div class="pitch-num">Growing</div>
+          <div class="pitch-label">Engaged Community</div>
+        </div>
+      </div>
+    </div>
+    <div class="brands-grid reveal">
+      <div class="brand-card">
+        <div class="brand-icon" style="background:#000;padding:8px;"><img src="assets/nike-logo.png" alt="Nike" style="width:100%;height:100%;object-fit:contain;display:block;" /></div>
+        <div class="brand-name">Nike</div>
+        <div class="brand-pitch">I've worn Nike since day one. This partnership writes itself.</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-icon" style="background:#000;padding:8px;"><img src="assets/on-logo.png" alt="On Running" style="width:100%;height:100%;object-fit:contain;display:block;" /></div>
+        <div class="brand-name">On Running</div>
+        <div class="brand-pitch">Built for performance runners in the city. That's exactly who I am.</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-icon" style="background:#fff;padding:8px;"><img src="assets/hoka-logo.png" alt="HOKA" style="width:100%;height:100%;object-fit:contain;display:block;" /></div>
+        <div class="brand-name">HOKA</div>
+        <div class="brand-pitch">Mile after mile, HOKA is built for runners who don't stop. Neither do I.</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-icon" style="background:#000;padding:8px;"><img src="assets/saucony-logo.png" alt="Saucony" style="width:100%;height:100%;object-fit:contain;display:block;" /></div>
+        <div class="brand-name">Saucony</div>
+        <div class="brand-pitch">A brand built for serious runners. I put in the work to match.</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-icon" style="background:#fff;padding:8px;"><img src="assets/brooks-logo.png" alt="Brooks" style="width:100%;height:100%;object-fit:contain;display:block;" /></div>
+        <div class="brand-name">Brooks</div>
+        <div class="brand-pitch">Run Happy. That's the energy I bring to every race I document.</div>
+      </div>
+    </div>
+    <div class="brands-cta reveal">
+      <a href="mailto:viifitnessnyc@gmail.com" class="btn btn-primary">Let's Work Together</a>
+    </div>
+  </section>
+
+  <!-- CONNECT -->
+  <section id="connect">
+    <div class="reveal">
+      <div class="section-label">Follow the Journey</div>
+      <h2 class="section-title">Run With Me</h2>
+      <p class="connect-sub">Every mile documented. Every race captured. Follow along on Instagram and track every run on Strava.</p>
+      <div class="connect-links">
+        <a href="https://www.instagram.com/viifitnessnyc" target="_blank" class="social-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </a>
+        <a href="https://www.strava.com/athletes/199404102" target="_blank" class="social-btn">
+          <svg viewBox="0 0 24 24"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+          Strava
+        </a>
+        <a href="mailto:viifitnessnyc@gmail.com" class="social-btn">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">vii<span>fitness</span>nyc</div>
+    <p>© 2024 Hiram Rodriguez · Building in NYC</p>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
